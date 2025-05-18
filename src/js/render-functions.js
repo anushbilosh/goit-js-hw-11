@@ -1,42 +1,51 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
 
-import axios from "axios";
+const galleryContainer = document.querySelector('.gallery');
+const loaderElement = document.querySelector('.loader');
 
-// const form = document.querySelector('.form');
-
-// form.addEventListener('submit', event => {
-//     event.preventDefault();
-//     const delay = Number(form.elements.delay.value);
-//     const state = form.elements.state.value;
-
-// createPromise(delay, state)
-//     .then(delay => {
-//         iziToast.success({
-//         message: `✅ Fulfilled promise in ${delay}ms`,
-//         position: 'topRight',
-//     });
-//     })
-//     .catch(delay => {
-//         iziToast.error({
-//         message: `❌ Rejected promise in ${delay}ms`,
-//         position: 'topRight',
-//     });
-//     });
-// });
+const lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+});
 
 
-// function createPromise(delay, state) {
-//     return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//         if (state === 'fulfilled') {
-//         resolve(delay); 
-//     } else {
-//         reject(delay);  
-//     }
-//     }, delay); 
-//     });
-// }
+export function createGallery(images) {
+    const markup = images
+    .map(image => {
+        return `
+        <li class="gallery-item">
+            <a class="gallery-link" href="${image.largeImageURL}">
+                <img
+                    class="gallery-image"
+                    src="${image.webformatURL}"
+                    alt="${image.tags}"
+                />
+            </a>
+            <div class="image-info">
+                <p><b>Likes:</b> ${image.likes}</p>
+                <p><b>Views:</b> ${image.views}</p>
+                <p><b>Comments:</b> ${image.comments}</p>
+                <p><b>Downloads:</b> ${image.downloads}</p>
+            </div>
+        </li>`;
+    })
+    .join(''); 
+
+    galleryContainer.insertAdjacentHTML('beforeend', markup);
+    lightbox.refresh();
+}
+
+export function clearGallery() {
+    galleryContainer.innerHTML = '';
+}
+
+export function showLoader() {
+    loaderElement.classList.remove('hidden');
+}
+
+export function hideLoader() {
+    loaderElement.classList.add('hidden');
+}
+
