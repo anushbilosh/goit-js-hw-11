@@ -42,10 +42,10 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-    loaderElement.classList.remove('hidden');
-}
+    loaderElement.classList.add('active');
+  }
 
-export function hideLoader() {
-    loaderElement.classList.add('hidden');
-}
+  export function hideLoader() {
+    loaderElement.classList.remove('active');
+  }
 

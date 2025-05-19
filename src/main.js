@@ -24,7 +24,7 @@ function handleUserQuery (event) {
         }
     
     showLoader();
-
+    console.log('showLoader called');
     clearGallery();
     
     getImagesByQuery(searchQuery)
